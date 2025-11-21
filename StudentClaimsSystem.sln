@@ -13,6 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{02EA68
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModels", "ViewModels", "{A3FEAB18-4C78-431F-BB48-88856C1B8C19}"
+	ProjectSection(SolutionItems) = preProject
+		MainViewModel.cs = MainViewModel.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{92C86CFF-112E-40D2-B9BE-774D272BAD08}"
 EndProject
