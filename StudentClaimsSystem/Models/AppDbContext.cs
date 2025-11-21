@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using StudentClaimsSystem.Models;
 
 namespace StudentClaimsSystem.Models
 {
@@ -11,10 +9,7 @@ namespace StudentClaimsSystem.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=claims.db");
-            }
+            optionsBuilder.UseSqlite("Data Source=claims.db");
         }
     }
 }

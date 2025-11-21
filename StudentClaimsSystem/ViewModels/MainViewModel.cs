@@ -7,9 +7,13 @@ namespace StudentClaimsSystem.ViewModels
     public partial class MainViewModel : ObservableObject
     {
         [ObservableProperty]
-        private object currentPage = new object();
+        private object currentPage = new();
 
-        // These are generated: ShowDashboardCommand, ShowModulesCommand, ...
+        public MainViewModel()
+        {
+            ShowDashboard();
+        }
+
         [RelayCommand]
         private void ShowDashboard() => CurrentPage = new DashboardView { DataContext = new DashboardViewModel() };
 
@@ -17,17 +21,15 @@ namespace StudentClaimsSystem.ViewModels
         private void ShowModules() => CurrentPage = new ModulesView { DataContext = new ModulesViewModel(this) };
 
         [RelayCommand]
-        private void ShowAddModule() => CurrentPage = new AddModuleView { DataContext = new AddModuleViewModel(this) };
+        public void ShowAddModule() => CurrentPage = new AddModuleView { DataContext = new AddModuleViewModel(this) };
 
         [RelayCommand]
         private void ShowSubmitClaim() => CurrentPage = new SubmitClaimView { DataContext = new SubmitClaimViewModel(this) };
 
-        public MainViewModel() => ShowDashboard();
-
-        // Helper methods other ViewModels can call:
-        public void RefreshModules() => ShowModulesCommand.Execute(null);
-        public void NavigateToAddModule() => ShowAddModuleCommand.Execute(null);
-        public void NavigateToDashboard() => ShowDashboardCommand.Execute(null);
-        public void NavigateToSubmitClaim() => ShowSubmitClaimCommand.Execute(null);
+        // Helper methods for other ViewModels to navigate
+        public void RefreshModules() => ShowModules();
+        public void NavigateToAddModule() => ShowAddModule();
+        public void NavigateToSubmitClaim() => ShowSubmitClaim();
+        public void NavigateToDashboard() => ShowDashboard();
     }
 }

@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using StudentClaimsSystem.Models;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 
 namespace StudentClaimsSystem.ViewModels
@@ -17,17 +17,12 @@ namespace StudentClaimsSystem.ViewModels
         [ObservableProperty] private double hoursClaimed;
         [ObservableProperty] private string description = "";
         [ObservableProperty] private string? fileName;
-        private string? _filePath;
 
-        public IRelayCommand UploadFileCommand { get; }
-        public IRelayCommand SubmitCommand { get; }
-        public int HoursClaimed { get; private set; }
+        private string? _filePath;
 
         public SubmitClaimViewModel(MainViewModel mainVM)
         {
             _mainVM = mainVM;
-            UploadFileCommand = new RelayCommand(_ => UploadFile());
-            SubmitCommand = new RelayCommand(_ => SubmitClaim());
             LoadModules();
         }
 
@@ -37,6 +32,7 @@ namespace StudentClaimsSystem.ViewModels
             Modules = new ObservableCollection<Module>(db.Modules.ToList());
         }
 
+        [RelayCommand]
         private void UploadFile()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
@@ -47,14 +43,21 @@ namespace StudentClaimsSystem.ViewModels
             }
         }
 
+        [RelayCommand]
         private void SubmitClaim()
         {
-            if (SelectedModule == null || HoursClaimed <= 0) { MessageBox.Show("Invalid data"); return; }
+            if (SelectedModule == null || HoursClaimed <= 0)
+            {
+                MessageBox.Show("Please select a module and enter hours.");
+                return;
+            }
 
-            var destFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Documents");
-            Directory.CreateDirectory(destFolder);
-            var destPath = Path.Combine(destFolder, FileName ?? "document.pdf");
-            if (_filePath != null) File.Copy(_filePath, destPath, true);
+            var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Documents");
+            Directory.CreateDirectory(folder);
+            var destPath = Path.Combine(folder, FileName ?? "document.pdf");
+
+            if (_filePath != null)
+                File.Copy(_filePath, destPath, true);
 
             using var db = new AppDbContext();
             db.Claims.Add(new Claim
@@ -66,8 +69,8 @@ namespace StudentClaimsSystem.ViewModels
             });
             db.SaveChanges();
 
-            MessageBox.Show("Claim submitted!");
-            _mainVM.RefreshModules(); // navigate back to modules list
+            MessageBox.Show("Claim submitted successfully!");
+            _mainVM.CurrentPage = new Views.ModulesView();
         }
     }
 }

@@ -11,6 +11,5 @@
         public string Description { get; set; } = "";
         public string? DocumentPath { get; set; }
         public string Status { get; set; } = "Pending";
-        public double? VerifiedHours { get; set; }
     }
 }

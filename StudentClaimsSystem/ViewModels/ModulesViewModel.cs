@@ -5,6 +5,7 @@ using StudentClaimsSystem.Views;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows;
+using Module = StudentClaimsSystem.Models.Module;  
 
 namespace StudentClaimsSystem.ViewModels
 {
