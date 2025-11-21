@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="StudentClaimsSystem.Views.AddModuleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="30" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Add / Edit Module" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <StackPanel Grid.Row="1" Margin="0,10">
+            <TextBlock Text="Module Code"/>
+            <TextBox Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" Width="300" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="0,10">
+            <TextBlock Text="Module Name"/>
+            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="300" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Margin="0,10">
+            <TextBlock Text="Credits"/>
+            <TextBox Text="{Binding Credits, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Margin="0,10">
+            <TextBlock Text="Class Hours Per Week"/>
+            <TextBox Text="{Binding ClassHoursPerWeek, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Left">
+            <Button Content="Save Module" Command="{Binding SaveCommand}" Padding="15,8" Margin="0,0,10,0"/>
+            <Button Content="Cancel" Command="{Binding CancelCommand}" Padding="15,8" Background="LightGray"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
