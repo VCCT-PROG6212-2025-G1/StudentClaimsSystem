@@ -1,12 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Claims;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using StudentClaimsSystem.Models;
 
-public class AppDbContext : DbContext
+namespace StudentClaimsSystem.Models
 {
-    public DbSet<Module> Modules => Set<Module>();
-    public DbSet<Claim> Claims => Set<Claim>();
+    public class AppDbContext : DbContext
+    {
+        public DbSet<Module> Modules { get; set; } = null!;
+        public DbSet<Claim> Claims { get; set; } = null!;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite("Data Source=claims.db");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=claims.db");
+            }
+        }
+    }
 }

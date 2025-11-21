@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="StudentClaimsSystem.Views.ModulesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="Modules" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Content="+ Add Module" Command="{Binding AddNewCommand}" Margin="20,0"/>
+        </StackPanel>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Modules}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Credits" Binding="{Binding Credits}"/>
+                <DataGridTextColumn Header="Class Hours" Binding="{Binding ClassHoursPerWeek}"/>
+                <DataGridTextColumn Header="Self-Study" Binding="{Binding SelfStudyHoursPerWeek, StringFormat=F1}"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}" Background="Red" Foreground="White"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

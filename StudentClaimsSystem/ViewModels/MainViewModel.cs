@@ -1,24 +1,33 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using StudentClaimsSystem.Views;
 
-public class MainViewModel : ObservableObject
+namespace StudentClaimsSystem.ViewModels
 {
-    private object _currentPage;
-    public object CurrentPage
+    public partial class MainViewModel : ObservableObject
     {
-        get => _currentPage;
-        set => SetProperty(ref _currentPage, value);
+        [ObservableProperty]
+        private object currentPage = new object();
+
+        // These are generated: ShowDashboardCommand, ShowModulesCommand, ...
+        [RelayCommand]
+        private void ShowDashboard() => CurrentPage = new DashboardView { DataContext = new DashboardViewModel() };
+
+        [RelayCommand]
+        private void ShowModules() => CurrentPage = new ModulesView { DataContext = new ModulesViewModel(this) };
+
+        [RelayCommand]
+        private void ShowAddModule() => CurrentPage = new AddModuleView { DataContext = new AddModuleViewModel(this) };
+
+        [RelayCommand]
+        private void ShowSubmitClaim() => CurrentPage = new SubmitClaimView { DataContext = new SubmitClaimViewModel(this) };
+
+        public MainViewModel() => ShowDashboard();
+
+        // Helper methods other ViewModels can call:
+        public void RefreshModules() => ShowModulesCommand.Execute(null);
+        public void NavigateToAddModule() => ShowAddModuleCommand.Execute(null);
+        public void NavigateToDashboard() => ShowDashboardCommand.Execute(null);
+        public void NavigateToSubmitClaim() => ShowSubmitClaimCommand.Execute(null);
     }
-
-    public ICommand ShowModules => new RelayCommand(_ => CurrentPage = new Views.ModulesView());
-    public ICommand ShowAddModule => new RelayCommand(_ => CurrentPage = new Views.AddModuleView(this));
-    public ICommand ShowClaims => new RelayCommand(_ => CurrentPage = new Views.ClaimsView());
-    public ICommand ShowDashboard => new RelayCommand(_ => CurrentPage = new Views.DashboardView());
-
-    public MainViewModel()
-    {
-        CurrentPage = new Views.DashboardView();
-    }
-
-    public void RefreshModules() => ShowModules.Execute(null);
 }
